@@ -75,7 +75,10 @@ const themeSelector = () => {
         const dimgrey = colorSelector[5].value;
     }
 
+    // GROUPING VALUES IN SEPERATE ARRAYS //
+
     let iheartJsArray = [colorSelector[3].value, colorSelector[4].value, colorSelector[5].value];
+
     let jsPunsArray = [ cornflowerblue = colorSelector[0].value, 
                         darkslategrey = colorSelector[1].value,  
                         gold = colorSelector[2].value
@@ -85,6 +88,7 @@ const themeSelector = () => {
 
     designSelector.addEventListener('change', (e) => {
 
+    // GRABBING ALL VALUES FROM DESIGN SELECTOR //
     for(let i = 0; i < designSelector.length; i++){
         let jsPunsTheme = designSelector[1].value;
         let heartJsTheme = designSelector[2].value;
@@ -93,6 +97,7 @@ const themeSelector = () => {
     jsPunsTheme = designSelector[1].value;
     heartJsTheme = designSelector[2].value;
     
+    // USING SWITCH STATEMENT TO TOGGLE DIFFERENT VALUES //
         switch(e.value){
             case jsPunsTheme:
                 iheartJsArray.children.style.display = "none";
