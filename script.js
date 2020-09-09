@@ -66,25 +66,17 @@ const themeSelector = () => {
 
     designSelector.value = "Select Theme";
 
-    for(let i = 0; i < colorSelector.length; i++){
-        const cornflowerblue = colorSelector[0].value;
-        const darkslategrey = colorSelector[1].value;
-        const gold = colorSelector[2].value;
-        const tomato = colorSelector[3].value;
-        const steelblue = colorSelector[4].value;
-        const dimgrey = colorSelector[5].value;
+    for(let i = 3; i < colorSelector.length; i++){
+        const iheartJsArray = colorSelector[i];
+        console.log(iheartJsArray);
     }
 
-    // GROUPING VALUES IN SEPERATE ARRAYS //
+    for(let i = 6; i < colorSelector.length; i++){
+        const jsPunsArray = [colorSelector[0].value, colorSelector[1].value, colorSelector[2].value];
+        console.log(jsPunsArray);
+    }
+   
 
-    let iheartJsArray = [colorSelector[3].value, colorSelector[4].value, colorSelector[5].value];
-
-    let jsPunsArray = [ cornflowerblue = colorSelector[0].value, 
-                        darkslategrey = colorSelector[1].value,  
-                        gold = colorSelector[2].value
-                    ]
-
-    console.log(iheartJsArray);
 
     designSelector.addEventListener('change', (e) => {
 
@@ -92,19 +84,21 @@ const themeSelector = () => {
     for(let i = 0; i < designSelector.length; i++){
         let jsPunsTheme = designSelector[1].value;
         let heartJsTheme = designSelector[2].value;
-    }
 
-    jsPunsTheme = designSelector[1].value;
-    heartJsTheme = designSelector[2].value;
-    
-    // USING SWITCH STATEMENT TO TOGGLE DIFFERENT VALUES //
-        switch(e.value){
+        switch(e.target.value){
             case jsPunsTheme:
                 iheartJsArray.children.style.display = "none";
+                jsPunsArray.children.style.display = "block";
+                break;
 
             case heartJsTheme:
-                jsPunsArray.children.style.display = "none";
+                iheartJsArray.children.style.display = "block";
+                jsPunsArray.children.style.display = "hidden";
+                break;
         }
+    }
+
+
     });
 }
 
