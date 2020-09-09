@@ -87,13 +87,13 @@ const themeSelector = () => {
 
         switch(e.target.value){
             case jsPunsTheme:
-                iheartJsArray.children.style.display = "none";
+                iheartJsArray.children.style.display = "hidden";
                 jsPunsArray.children.style.display = "block";
                 break;
 
             case heartJsTheme:
-                iheartJsArray.children.style.display = "block";
                 jsPunsArray.children.style.display = "hidden";
+                iheartJsArray.children.style.display = "block";
                 break;
         }
     }
