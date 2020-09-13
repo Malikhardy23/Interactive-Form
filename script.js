@@ -1,6 +1,6 @@
 // VARIABLES //
 const name = document.getElementById("name");
-const otherTitle = document.getElementById("other-title");
+//const otherTitle = document.getElementById("other-title");
 const otherCheckBox = document.getElementById("title");
 const colorSelector = document.getElementById("color");
 const designSelector = document.getElementById("design");
@@ -33,14 +33,14 @@ nameFocus();
 
 const hideOtherCheckBox = () => {
 
-    otherTitle.style.display = "none";
+    //otherTitle.style.display = "none";
 
     otherCheckBox.addEventListener('click', (e) => {
         
         if(e.target.value != "other"){
-            otherTitle.style.display = "none";
+           // otherTitle.style.display = "none";
         } else {
-            otherTitle.style.display = "block";
+            //otherTitle.style.display = "block";
         }
     })
 }
@@ -62,21 +62,20 @@ const themeSelector = () => {
 
     colorSelector.appendChild(optionValue);
 
-    colorSelector.value = "Please select a T-shirt theme";
+    /* colorSelector.value = "Please select a T-shirt theme";
 
-    designSelector.value = "Select Theme";
+    designSelector.value = "Select Theme"; */
 
-    for(let i = 3; i < colorSelector.length; i++){
+
+     for(let i = 3; i < colorSelector.length; i++){
         const iheartJsArray = colorSelector[i];
         console.log(iheartJsArray);
     }
 
-    for(let i = 6; i < colorSelector.length; i++){
-        const jsPunsArray = [colorSelector[0].value, colorSelector[1].value, colorSelector[2].value];
+    for(let i = 0; i < colorSelector.length; i++){
+     const jsPunsArray = [colorSelector[0].value, colorSelector[1].value, colorSelector[2].value];
         console.log(jsPunsArray);
-    }
-   
-
+    } 
 
     designSelector.addEventListener('change', (e) => {
 
@@ -85,17 +84,14 @@ const themeSelector = () => {
         let jsPunsTheme = designSelector[1].value;
         let heartJsTheme = designSelector[2].value;
 
-        switch(e.target.value){
-            case jsPunsTheme:
-                iheartJsArray.children.style.display = "hidden";
-                jsPunsArray.children.style.display = "block";
-                break;
+        for(let i = 0; i < colorSelector.length; i++){
+            const jsPunsArray = [colorSelector[0], colorSelector[1], colorSelector[2]];
+           
+            if(e.target.value === jsPunsTheme){
 
-            case heartJsTheme:
-                jsPunsArray.children.style.display = "hidden";
-                iheartJsArray.children.style.display = "block";
-                break;
-        }
+            }
+           }
+
     }
 
 
@@ -104,5 +100,4 @@ const themeSelector = () => {
 
 themeSelector();
 
-console.log(designSelector.value)
 
