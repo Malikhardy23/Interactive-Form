@@ -6,19 +6,6 @@ const colorSelector = document.getElementById("color");
 const designSelector = document.getElementById("design");
 const shirtColors = document.getElementById("shirt-colors");
 
-// T SHIRT VARIABLES //
-
-for(let i = 0; i < colorSelector.length; i++){
-    const cornflowerblue = colorSelector[0].value;
-    const darkslategrey = colorSelector[1].value;
-    const gold = colorSelector[2].value;
-    const tomato = colorSelector[3].value;
-    const steelblue = colorSelector[4].value;
-    const dimgrey = colorSelector[5].value;
-}
-
-
-
 
 // NAME FOCUS //
 
@@ -38,9 +25,9 @@ const hideOtherCheckBox = () => {
     otherCheckBox.addEventListener('click', (e) => {
         
         if(e.target.value != "other"){
-           // otherTitle.style.display = "none";
+          //  otherTitle.style.display = "none";
         } else {
-            //otherTitle.style.display = "block";
+           // otherTitle.style.display = "block";
         }
     })
 }
@@ -62,38 +49,45 @@ const themeSelector = () => {
 
     colorSelector.appendChild(optionValue);
 
-    /* colorSelector.value = "Please select a T-shirt theme";
+    colorSelector.value = "Please select a T-shirt theme";
 
-    designSelector.value = "Select Theme"; */
+    designSelector.value = "Select Theme"; 
 
+    // GRABBING ALL VALUES FROM DESIGN SELECTOR //
 
-     for(let i = 3; i < colorSelector.length; i++){
-        const iheartJsArray = colorSelector[i];
-        console.log(iheartJsArray);
-    }
+    let jsPunsTheme = designSelector[1].value;
+    let iheartJsTheme = designSelector[2].value;
 
-    for(let i = 0; i < colorSelector.length; i++){
-     const jsPunsArray = [colorSelector[0].value, colorSelector[1].value, colorSelector[2].value];
-        console.log(jsPunsArray);
-    } 
+    // THEME VALUES //
 
     designSelector.addEventListener('change', (e) => {
 
-    // GRABBING ALL VALUES FROM DESIGN SELECTOR //
-    for(let i = 0; i < designSelector.length; i++){
-        let jsPunsTheme = designSelector[1].value;
-        let heartJsTheme = designSelector[2].value;
+        switch(e.target.value){
+            case jsPunsTheme:
+                colorSelector.remove(3);
+                colorSelector.remove(4);
+                colorSelector.remove(5);
+            break;
 
-        for(let i = 0; i < colorSelector.length; i++){
-            const jsPunsArray = [colorSelector[0], colorSelector[1], colorSelector[2]];
-           
-            if(e.target.value === jsPunsTheme){
-
-            }
-           }
-
-    }
-
+            case iheartJsTheme:
+                colorSelector.remove(0);
+                colorSelector.remove(1);
+                colorSelector.remove(2);
+                colorSelector.remove(3);
+            break;
+        }
+       /* if(e.target.value === jsPunsTheme){
+            colorSelector.remove(0);
+            colorSelector.remove(3);
+            colorSelector.remove(4);
+            colorSelector.remove(5);
+        }
+        if(e.target.value === iheartJsTheme){
+            colorSelector.remove(0);
+            colorSelector.remove(1);
+            colorSelector.remove(2);
+            colorSelector.remove(3);
+        } */
 
     });
 }
@@ -101,3 +95,14 @@ const themeSelector = () => {
 themeSelector();
 
 
+console.log(colorSelector[0])
+
+console.log(colorSelector[1])
+
+console.log(colorSelector[2])
+
+console.log(colorSelector[3])
+
+console.log(colorSelector[4])
+
+console.log(colorSelector[5])
