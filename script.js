@@ -39,19 +39,20 @@ hideOtherCheckBox();
 
 const themeSelector = () => {
 
-    let optionValue = document.createElement("OPTION");
+colorSelector.disabled = true;
 
-    optionValue.setAttribute("value", "Please select a T-shirt theme");
+const optionValue = document.createElement('option');
 
-    let message = document.createTextNode("Please select a T-shirt theme");
+optionValue.text = 'Please Select a T-Shirt theme';
 
-    optionValue.appendChild(message);
+// Place Color to beginning of list // 
+colorSelector.add(optionValue, colorSelector.options[0]);
 
-    colorSelector.appendChild(optionValue);
+colorSelector.selectedIndex = '0';
 
-    colorSelector.value = "Please select a T-shirt theme";
+optionValue.disabled = true;
 
-    designSelector.value = "Select Theme"; 
+designSelector.value = "Select Theme";
 
     // GRABBING ALL VALUES FROM DESIGN SELECTOR //
 
@@ -62,33 +63,29 @@ const themeSelector = () => {
 
     designSelector.addEventListener('change', (e) => {
 
-        switch(e.target.value){
-            case jsPunsTheme:
-                colorSelector.remove(3);
-                colorSelector.remove(4);
-                colorSelector.remove(5);
-            break;
+    colorSelector.disabled = false;
 
-            case iheartJsTheme:
-                colorSelector.remove(0);
-                colorSelector.remove(1);
-                colorSelector.remove(2);
-                colorSelector.remove(3);
-            break;
+    if(e.target.value === 'heart js'){
+        for(let i = 0; i < colorSelector.length; i++){
+            if(colorSelector.options[i].text.includes('Puns')){
+                colorSelector.options[i].hidden = true;
+                colorSelector.value = "tomato";
+            } else {
+                colorSelector.options[i].hidden = false;
+            }
         }
-       /* if(e.target.value === jsPunsTheme){
-            colorSelector.remove(0);
-            colorSelector.remove(3);
-            colorSelector.remove(4);
-            colorSelector.remove(5);
-        }
-        if(e.target.value === iheartJsTheme){
-            colorSelector.remove(0);
-            colorSelector.remove(1);
-            colorSelector.remove(2);
-            colorSelector.remove(3);
-        } */
+    }
 
+    if(e.target.value === 'js puns'){
+        for(let i = 0; i < colorSelector.length; i++){
+            if(colorSelector.options[i].text.includes('♥')){
+                colorSelector.options[i].hidden = true;
+                colorSelector.value = "cornflowerblue";
+            } else {
+                colorSelector.options[i].hidden = false;
+            }
+        }
+    }
     });
 }
 
