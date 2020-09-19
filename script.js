@@ -2,9 +2,6 @@
 const name = document.getElementById("name");
 //const otherTitle = document.getElementById("other-title");
 const otherCheckBox = document.getElementById("title");
-const colorSelector = document.getElementById("color");
-const designSelector = document.getElementById("design");
-const shirtColors = document.getElementById("shirt-colors");
 
 
 // NAME FOCUS //
@@ -38,6 +35,13 @@ hideOtherCheckBox();
 // THEME FUNCTION //
 
 const themeSelector = () => {
+
+// T SHIRT SECTION VARIABLES 
+const colorSelector = document.getElementById("color");
+
+const designSelector = document.getElementById("design");
+
+const shirtColors = document.getElementById("shirt-colors");
 
 colorSelector.disabled = true;
 
@@ -92,14 +96,71 @@ designSelector.value = "Select Theme";
 themeSelector();
 
 
-console.log(colorSelector[0])
+// ACTIVITIES ALERT //
 
-console.log(colorSelector[1])
+const activitiesTitle = document.querySelector('.activities legend');
+let activitiesError = document.createElement('h5');
+activitiesError.innerHTML = 'Please Select an Option'
 
-console.log(colorSelector[2])
 
-console.log(colorSelector[3])
 
-console.log(colorSelector[4])
+// CHECKBOX VARIABLES //
 
-console.log(colorSelector[5])
+const activities = document.querySelector('.activities');
+
+
+const mainConference = {
+    name: "all",
+    cost: 100,
+    value: document.getElementsByName("all")
+}
+
+const jsFrameworks = {
+    name: "jsFrameworks",
+    cost: 100,
+    value: document.getElementsByName("js-frameworks")
+}
+
+const jsLibrary = {
+    name: "jsLibrary",
+    cost: 100,
+    value: document.getElementsByName("js-libs")
+}
+
+const expressWorkshop = {
+    name: "express",
+    cost: 100,
+    value: document.getElementsByName("express")
+}
+
+const nodeJsWorkshop = {
+    name: "node",
+    cost: 100,
+    value: document.getElementsByName("node")
+}
+
+const toolsWorkshop = {
+    name: "toolsWorkshop",
+    cost: 100,
+    value: document.getElementsByName("build-tools")
+}
+
+const npmWorkshop = {
+    name: "npm",
+    cost: 100,
+    value: document.getElementsByName("npm")
+}
+
+let totalCost = document.createElement('h4');
+
+totalCost.innerHTML = `Total: ${totalCost.value}`
+
+activities.appendChild(totalCost);
+
+activities.addEventListener('change', (e) => {
+    const checkboxes = document.querySelectorAll('label input');
+    if(mainConference.value.checked == true){
+        console.log(totalCost += 100);
+    }
+}) 
+
