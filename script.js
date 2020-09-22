@@ -1,6 +1,6 @@
 // VARIABLES //
 const name = document.getElementById("name");
-//const otherTitle = document.getElementById("other-title");
+const otherTitle = document.getElementById("other-title");
 const otherCheckBox = document.getElementById("title");
 
 
@@ -15,16 +15,16 @@ nameFocus();
 
 // HIDING OTHER INPUT FIELD FUNCTION //
 
-const hideOtherCheckBox = () => {
+ const hideOtherCheckBox = () => {
 
-    //otherTitle.style.display = "none";
+    otherTitle.style.display = "none";
 
     otherCheckBox.addEventListener('click', (e) => {
         
-        if(e.target.value != "other"){
-          //  otherTitle.style.display = "none";
+        if(e.target.value !== "other"){
+          otherTitle.style.display = "none";
         } else {
-           // otherTitle.style.display = "block";
+           otherTitle.style.display = "block";
         }
     })
 }
@@ -107,60 +107,42 @@ activitiesError.innerHTML = 'Please Select an Option'
 // CHECKBOX VARIABLES //
 
 const activities = document.querySelector('.activities');
+const checkboxes = document.querySelectorAll('label input');
 
+const mainConference = document.getElementsByName("all");
 
-const mainConference = {
-    name: "all",
-    cost: 100,
-    value: document.getElementsByName("all")
+let disabled = () => {
+    document.getElementsByName("express").disabled = true;
 }
 
-const jsFrameworks = {
-    name: "jsFrameworks",
-    cost: 100,
-    value: document.getElementsByName("js-frameworks")
-}
+let totalElement = document.createElement('h4');
 
-const jsLibrary = {
-    name: "jsLibrary",
-    cost: 100,
-    value: document.getElementsByName("js-libs")
-}
+let totalDiv = document.createElement("div");
 
-const expressWorkshop = {
-    name: "express",
-    cost: 100,
-    value: document.getElementsByName("express")
-}
+let totalCost = 0;
 
-const nodeJsWorkshop = {
-    name: "node",
-    cost: 100,
-    value: document.getElementsByName("node")
-}
+activities.appendChild(totalDiv);
 
-const toolsWorkshop = {
-    name: "toolsWorkshop",
-    cost: 100,
-    value: document.getElementsByName("build-tools")
-}
+totalCost.value = 0;
 
-const npmWorkshop = {
-    name: "npm",
-    cost: 100,
-    value: document.getElementsByName("npm")
-}
-
-let totalCost = document.createElement('h4');
-
-totalCost.innerHTML = `Total: ${totalCost.value}`
-
-activities.appendChild(totalCost);
+// ACTIVITIES EVENT LISTENER //
 
 activities.addEventListener('change', (e) => {
-    const checkboxes = document.querySelectorAll('label input');
-    if(mainConference.value.checked == true){
-        console.log(totalCost += 100);
+// CHECK THE VALUE OF CHECKBOX //
+    let checked = e.target;
+
+   /* if(e.target === checked){
+        console.log(e.target);
     }
-}) 
+    else {
+        console.log("false");
+    } */
+
+    // DISABLE CHECK BOX //
+
+    if(e.target.name === "express"){
+        document.getElementsByName("js-frameworks").disabled = true;
+    }
+})
+
 
