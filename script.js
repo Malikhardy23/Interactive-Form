@@ -123,20 +123,25 @@ let totalCost = 0;
 
 activities.appendChild(totalDiv);
 
-totalCost.value = 0;
+let total = 0;
 
 // ACTIVITIES EVENT LISTENER //
 
 activities.addEventListener('change', (e) => {
 // CHECK THE VALUE OF CHECKBOX //
     let checked = e.target;
-
-   /* if(e.target === checked){
-        console.log(e.target);
+    let checkboxActivities = document.querySelectorAll('input[type="checkbox"]');
+    let date = checked.getAttribute("data-day-and-time");
+    let cost = checked.getAttribute("data-cost");
+    cost = parseInt(cost);
+   if(e.target === checked){
+        totalCost = totalCost + cost;
+        console.log(totalCost);
     }
     else {
         console.log("false");
-    } */
+    }
+
 
     // DISABLE CHECK BOX //
 
