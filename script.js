@@ -193,83 +193,47 @@ paymentOption.addEventListener('change', (e) => {
 
 // NAME VALIDATOR //
 
-const alertValidator = (show, e) => {
-    if(show){
-        e.style.display = "red";
-    } else {
-        e.style.display = "blue";
-    }
-}
-
-const createEventListener = validator => {
-    return e => {
-        let text = e.target.value;
-        let valid = validator(text);
-        let showTip = text !== "" && !valid;
-        let toolTip = e.target.nextElementSibling;
-        alertValidator(showTip, toolTip);
-    };
-}
-
 // VALID NAME VALIDATOR FUNCTION //
 
-const isValidName = e => {
-    e.preventDefault;
-    let name = document.getElementById("name").value;
-    let regexName =  /^[a-zA-Z]+( [a-zA-Z]+)+$/;
-    if(!regexName.test(name)){
-        console.log("Invalid Name");
-        document.getElementById("name").focus();
-    } else {
-        console.log("Valid Name");
+const isValidName = () => {
+    let nameLabel = document.getElementsByTagName("label")[0];
+    let nameError = document.createElement("span");
+    nameError.setAttribute("id", "nameError");
+    let errorSpan = document.getElementById("nameError");
+
+    if(name.value.length > 0 || name.value.length > 4){
+        // NAME ERROR //
+        if(errorSpan){
+            nameLabel.removeChild(errorSpan)
+        }
+        name.style.border = "2px solid red";
+        return true;
+    } else if (!errorSpan){
+        nameError.style.color = "red";
+        nameError.innerHTML = "Please Enter a Valid Name";
+        nameLabel.appendChild(nameError);
+        name.style.border = "2px solid red";
+        return false;
+        // TRYING TO MAKE A VALID NAME MESSAGE //
+    } else if (name.value.length < 6 && name.value.indexOf(" ") == 1){
+        nameError.style.color = "green";
+        nameError.innerHTML = "That's a great name!";
+        name.style.border = "2px solid green";
         return true;
     }
 }
+
 // CREDIT CARD REGEX //
 
-let visaRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
-let masterCardRegex = /^(?:5[1-5][0-9]{14})$/;
-let amexCardRegex = /^(?:3[47][0-9]{13})$/;
-let discCardRegex = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
-let isValid = false;
 
 // CC VALIDATOR FUNCTION //
 
-const isValidCreditCard = () => {
-    let ccNum = document.getElementById("credit-card").value;
-
-    let isVisa = visaRegex.test(ccNum) === true;
-    let isMasterCard = masterCardRegex.test(ccNum) === true;
-    let isAmex = amexCardRegex.test( ccNum ) === true;
-    let isDisc = discCardRegex.test( ccNum ) === true;
-
-    if(visaRegex || masterCardRegex || amexCardRegex || discCardRegex){
-        console.log("Valid Credit Card");
-    } else {
-        console.log("Invalid Credit Card");
-    }
-    
-}
 
 // EMAIL VALIDATOR FUNCTION //
 
-const isValidEmail = e => {
-    let email = document.getElementById("mail").value;
-    let regexEmail = /^[^@]+@[^@.]+\.[a-z]+$/i;
-    if(!regexEmail.test(email)){
-        console.log("Invalid Name");
-        document.getElementById("mail").focus();
-    } else {
-        console.log("Valid Name");
-        return true;
-    }
-}
 
+name.addEventListener("input", isValidName);
 
+// email.addEventListener("input", isValidEmail);
 
-
-name.addEventListener("input", createEventListener(isValidName));
-
-email.addEventListener("input", createEventListener(isValidEmail));
-
-creditCard.addEventListener("input", createEventListener(isValidCreditCard));
+// creditCard.addEventListener("input", isValidCreditCard);
