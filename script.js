@@ -2,8 +2,8 @@
 const name = document.getElementById("name");
 const otherTitle = document.getElementById("other-title");
 const otherCheckBox = document.getElementById("title");
+// const email = document.querySelector('input[name="user-email"]');
 const email = document.getElementById("mail");
-
 
 // NAME FOCUS //
 
@@ -201,24 +201,38 @@ const isValidName = () => {
     nameError.setAttribute("id", "nameError");
     let errorSpan = document.getElementById("nameError");
 
-    if(name.value.length > 0 || name.value.length > 4){
-        // NAME ERROR //
-        if(errorSpan){
-            nameLabel.removeChild(errorSpan)
-        }
-        name.style.border = "2px solid red";
-        return true;
-    } else if (!errorSpan){
+    // if(name.length > 0 || name.length > 4) return true;
+
+    if (!errorSpan){
         nameError.style.color = "red";
-        nameError.innerHTML = "Please Enter a Valid Name";
         nameLabel.appendChild(nameError);
         name.style.border = "2px solid red";
         return false;
         // TRYING TO MAKE A VALID NAME MESSAGE //
-    } else if (name.value.length < 6 && name.value.indexOf(" ") == 1){
+    } else if (name.length < 6 || name.value.indexOf(" ") > -1){
         nameError.style.color = "green";
-        nameError.innerHTML = "That's a great name!";
+        nameLabel.appendChild(nameError);
         name.style.border = "2px solid green";
+        return true;
+    }
+}
+
+const isValidEmail = () => {
+    let emailLabel = document.getElementsByTagName("label")[1];
+    let emailError = document.createElement("span");
+    emailError.setAttribute("id", "emailError");
+    let emailErrorSpan = document.getElementById("emailError");
+    // let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    
+    if(!emailErrorSpan){
+        emailError.style.color = "red";
+        emailLabel.appendChild(emailError);
+        email.style.border = "2px solid red";
+        return false;
+    } else if (email.length < 0 || email.value.indexOf('@') === 1){
+        emailError.style.color = "green";
+        emailLabel.appendChild(emailError);
+        email.style.border = "2px solid green";
         return true;
     }
 }
@@ -231,9 +245,10 @@ const isValidName = () => {
 
 // EMAIL VALIDATOR FUNCTION //
 
+console.log(email);
 
 name.addEventListener("input", isValidName);
 
-// email.addEventListener("input", isValidEmail);
+email.addEventListener("input", isValidEmail);
 
 // creditCard.addEventListener("input", isValidCreditCard);
