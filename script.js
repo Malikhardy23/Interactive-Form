@@ -200,6 +200,7 @@ const isValidName = () => {
     let nameError = document.createElement("span");
     nameError.setAttribute("id", "nameError");
     let errorSpan = document.getElementById("nameError");
+    let nameRegex =  /^([\w]{3,})+\s+([\w\s]{3,})+$/i;
 
     // if(name.length > 0 || name.length > 4) return true;
 
@@ -222,14 +223,14 @@ const isValidEmail = () => {
     let emailError = document.createElement("span");
     emailError.setAttribute("id", "emailError");
     let emailErrorSpan = document.getElementById("emailError");
-    // let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     
-    if(!emailErrorSpan){
+    if(email.length < 0 || email.value.indexOf('@') == -1){
         emailError.style.color = "red";
         emailLabel.appendChild(emailError);
         email.style.border = "2px solid red";
         return false;
-    } else if (email.length < 0 || email.value.indexOf('@') === 1){
+    } else if (emailRegex){
         emailError.style.color = "green";
         emailLabel.appendChild(emailError);
         email.style.border = "2px solid green";
@@ -240,15 +241,50 @@ const isValidEmail = () => {
 // CREDIT CARD REGEX //
 
 
-// CC VALIDATOR FUNCTION //
+// CC PAYMENT VALIDATOR FUNCTION //
+
+const creditCardValue = document.getElementById("cc-num").value;
+const zipCodeValue = document.getElementById("zip").value;
+const cvvValue = document.getElementById("cvv").value;
+const creditCardInput = document.getElementById("cc-num");
+// const zipCodeInput = document.getElementById("zip");
+// const cvvInput = document.getElementById("cvv");
+const registerBtn = document.querySelector('button[type="submit"]');
+const form = document.querySelector("form");
+
+
+const isValidCreditCard = (e) => {
+    e.preventDefault();
+    let creditCardLabel = document.getElementsByTagName("label")[14];
+    let creditCardError = document.createElement("span");
+    creditCardError.setAttribute("id", "ccError");
+    let ccErrorSpan = document.getElementById("ccError");
+    let ccRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/ || /^(?:5[1-5][0-9]{14})$/ || /^(?:3[47][0-9]{13})$/;
+
+    if(creditCardInput.value == null){
+        creditCardInput.style.border = "2px solid red";
+    }
+
+    if(ccRegex.test(creditCardValue) == true){
+        creditCardError.style.color = "green";
+        creditCardLabel.appendChild(creditCardError);
+        creditCardInput.style.border = "2px solid green";
+    } else if(ccRegex.test(creditCardValue) == false){
+        creditCardError.style.color = "red";
+        creditCardLabel.appendChild(creditCardError);
+        creditCardInput.style.border = "2px solid red";
+    }
+
+}
 
 
 // EMAIL VALIDATOR FUNCTION //
 
-console.log(email);
+console.log(creditCard);
 
 name.addEventListener("input", isValidName);
 
 email.addEventListener("input", isValidEmail);
 
-// creditCard.addEventListener("input", isValidCreditCard);
+form.addEventListener("submit", isValidCreditCard);
+
