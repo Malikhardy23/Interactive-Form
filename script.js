@@ -163,7 +163,7 @@ activities.addEventListener('change', (e) => {
 
 let paymentOption = document.getElementById("payment");
 
-let creditCard = document.getElementById("credit-card");
+let creditCardSection = document.getElementById("credit-card");
 
 let selectMethod = document.getElementsByTagName("option")[20];
 
@@ -178,11 +178,11 @@ paymentOption.addEventListener('change', (e) => {
 
 
     if(e.target.value == "bitcoin" || e.target.value == "paypal"){
-        creditCard.style.display = "none";
+        creditCardSection.style.display = "none";
     }
 
     else if(e.target.value == "credit card"){
-        creditCard.style.display = "block";
+        creditCardSection.style.display = "block";
     }
 
 })
@@ -206,6 +206,7 @@ const isValidName = () => {
 
     if (!errorSpan){
         nameError.style.color = "red";
+        nameLabel.innerHTML = "Invalid Name";
         nameLabel.appendChild(nameError);
         name.style.border = "2px solid red";
         return false;
@@ -218,6 +219,8 @@ const isValidName = () => {
     }
 }
 
+// EMAIL VALIDATOR //
+
 const isValidEmail = () => {
     let emailLabel = document.getElementsByTagName("label")[1];
     let emailError = document.createElement("span");
@@ -225,8 +228,11 @@ const isValidEmail = () => {
     let emailErrorSpan = document.getElementById("emailError");
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     
+
+    // EMAIL LENGTH MUST BE GREATER THAN 0 & HAVE AN @ //
     if(email.length < 0 || email.value.indexOf('@') == -1){
         emailError.style.color = "red";
+        emailLabel.innerHTML = "Invalid Email";
         emailLabel.appendChild(emailError);
         email.style.border = "2px solid red";
         return false;
@@ -243,48 +249,77 @@ const isValidEmail = () => {
 
 // CC PAYMENT VALIDATOR FUNCTION //
 
-const creditCardValue = document.getElementById("cc-num").value;
-const zipCodeValue = document.getElementById("zip").value;
-const cvvValue = document.getElementById("cvv").value;
+const creditCardLabel = document.querySelector('label[for=cc-num]');
 const creditCardInput = document.getElementById("cc-num");
-// const zipCodeInput = document.getElementById("zip");
-// const cvvInput = document.getElementById("cvv");
 const registerBtn = document.querySelector('button[type="submit"]');
+/////////////////////////////////////////////////////////////////////////////
 const form = document.querySelector("form");
-
+let creditCardError = document.createElement("span");
+creditCardError.setAttribute("id", "ccError");
+let ccErrorSpan = document.getElementById("ccError");
+let ccRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/ || /^(?:5[1-5][0-9]{14})$/ || /^(?:3[47][0-9]{13})$/;
 
 const isValidCreditCard = (e) => {
     e.preventDefault();
-    let creditCardLabel = document.getElementsByTagName("label")[14];
-    let creditCardError = document.createElement("span");
-    creditCardError.setAttribute("id", "ccError");
-    let ccErrorSpan = document.getElementById("ccError");
-    let ccRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/ || /^(?:5[1-5][0-9]{14})$/ || /^(?:3[47][0-9]{13})$/;
-
-    if(creditCardInput.value == null){
-        creditCardInput.style.border = "2px solid red";
-    }
-
-    if(ccRegex.test(creditCardValue) == true){
-        creditCardError.style.color = "green";
-        creditCardLabel.appendChild(creditCardError);
-        creditCardInput.style.border = "2px solid green";
-    } else if(ccRegex.test(creditCardValue) == false){
+    const creditCardValue = document.getElementById("cc-num").value;
+    // CREDIT CARD VALUE CAN NOT BE NULL & CAN NOT HAVE LESS THAN 16 CHARACTERS //
+    if(creditCardValue === null || creditCardValue.length < 16){
         creditCardError.style.color = "red";
+        creditCardLabel.textContent = "Invalid Credit Card";
         creditCardLabel.appendChild(creditCardError);
         creditCardInput.style.border = "2px solid red";
     }
+}
 
+// VALID ZIP CODD FUNCTION //
+
+const isValidZipCode = e => {
+    e.preventDefault();
+    const zipCodeValue = document.getElementById("zip").value;
+    let zipCodeInput = document.getElementById("zip");
+    let zipCodeError = document.createElement("span");
+    let zipCodeLabel = document.querySelector('label[for=zip]');
+    zipCodeError.setAttribute("id", "zipCodeError");
+    let zipCodeErrorSpan = document.getElementById("zipCodeError");
+    if(zipCodeValue === null || zipCodeValue.length < 4){
+        zipCodeError.style.color = "red";
+        zipCodeLabel.textContent = "Invalid Zip Code";
+        zipCodeLabel.appendChild(zipCodeError);
+        zipCodeInput.style.border = "2px solid red";
+    }
 }
 
 
-// EMAIL VALIDATOR FUNCTION //
+// VALID CVV FUNCTION //
 
-console.log(creditCard);
+const isValidCvv = e => {
+    e.preventDefault();
+    const cvvValue = document.getElementById("cvv").value;
+    let cvvInput = document.getElementById("cvv");
+    let cvvError = document.createElement("span");
+    let cvvLabel = document.querySelector('label[for=cvv]');
+    cvvError.setAttribute("id", "cvvError");
+    let cvvErrorSpan = document.getElementById("cvvError");
+    if(cvvValue === null || cvvValue.length < 2){
+        cvvError.style.color = "red";
+        cvvLabel.textContent = "Invalid CVV";
+        cvvLabel.appendChild(cvvError);
+        cvvInput.style.border = "2px solid red";
+    } 
+}
 
-name.addEventListener("input", isValidName);
 
-email.addEventListener("input", isValidEmail);
+
+form.addEventListener("input", isValidName);
+
+form.addEventListener("input", isValidEmail);
+
+form.addEventListener("submit", isValidName);
+
+form.addEventListener("submit", isValidEmail);
 
 form.addEventListener("submit", isValidCreditCard);
 
+form.addEventListener("submit", isValidZipCode);
+
+form.addEventListener("submit", isValidCvv);
