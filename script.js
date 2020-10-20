@@ -167,6 +167,15 @@ let creditCardSection = document.getElementById("credit-card");
 
 let selectMethod = document.getElementsByTagName("option")[20];
 
+let creditCardOption = document.getElementsByTagName("option")[21];
+
+paypal.style.display = "none";
+
+bitcoin.style.display = "none";
+
+selectMethod.textContent = "Credit Card";
+
+
 
 // HIDE PAYMENT MESSAGE ON CLICK //
 
@@ -177,8 +186,15 @@ selectMethod.hidden = true;
 paymentOption.addEventListener('change', (e) => {
 
 
-    if(e.target.value == "bitcoin" || e.target.value == "paypal"){
+    if(e.target.value == "bitcoin"){
         creditCardSection.style.display = "none";
+        paypal.style.display = "none";
+        bitcoin.style.display = "block";
+    }
+    else if(e.target.value == "paypal"){
+        paypal.style.display = "block";
+        creditCardSection.style.display = "none";
+        bitcoin.style.display = "none";
     }
 
     else if(e.target.value == "credit card"){
@@ -200,23 +216,21 @@ const isValidName = () => {
     let nameError = document.createElement("span");
     nameError.setAttribute("id", "nameError");
     let errorSpan = document.getElementById("nameError");
-    let nameRegex =  /^([\w]{3,})+\s+([\w\s]{3,})+$/i;
+    let nameRegex =  /^[a-z ,.'-]+$/.test(name.value);
 
-    // if(name.length > 0 || name.length > 4) return true;
-
-    if (!errorSpan){
-        nameError.style.color = "red";
-        nameLabel.innerHTML = "Invalid Name";
-        nameLabel.appendChild(nameError);
-        name.style.border = "2px solid red";
-        return false;
-        // TRYING TO MAKE A VALID NAME MESSAGE //
-    } else if (name.length < 6 || name.value.indexOf(" ") > -1){
-        nameError.style.color = "green";
-        nameLabel.appendChild(nameError);
+    if(name.value.length > 5 && nameRegex && name.value.indexOf(" ") > -1){
         name.style.border = "2px solid green";
+        nameLabel.innerHTML = "Valid Name!";
+        nameLabel.style.color = "green";
         return true;
     }
+    else if (name.value == null || !nameRegex){
+        name.style.border = "2px solid red";
+        nameLabel.innerHTML = "Valid Name!";
+        nameLabel.style.color = "red";
+        return false;
+    }
+
 }
 
 // EMAIL VALIDATOR //
@@ -230,17 +244,17 @@ const isValidEmail = () => {
     
 
     // EMAIL LENGTH MUST BE GREATER THAN 0 & HAVE AN @ //
-    if(email.length < 0 || email.value.indexOf('@') == -1){
-        emailError.style.color = "red";
-        emailLabel.innerHTML = "Invalid Email";
-        emailLabel.appendChild(emailError);
-        email.style.border = "2px solid red";
-        return false;
-    } else if (emailRegex){
-        emailError.style.color = "green";
-        emailLabel.appendChild(emailError);
+    if(email.value.length !== null || emailRegex){
         email.style.border = "2px solid green";
+        emailLabel.innerHTML = "Valid Email";
+        emailLabel.style.color = "green";
         return true;
+    }
+    else if(email.value.length == null && !emailRegex){
+        email.style.border = "2px solid red";
+        emailLabel.innerHTML = "Invalid Email";
+        emailLabel.style.color = "red";
+        return false;
     }
 }
 
@@ -260,7 +274,7 @@ let ccErrorSpan = document.getElementById("ccError");
 let ccRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/ || /^(?:5[1-5][0-9]{14})$/ || /^(?:3[47][0-9]{13})$/;
 
 const isValidCreditCard = (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     const creditCardValue = document.getElementById("cc-num").value;
     // CREDIT CARD VALUE CAN NOT BE NULL & CAN NOT HAVE LESS THAN 16 CHARACTERS //
     if(creditCardValue === null || creditCardValue.length < 16){
@@ -274,7 +288,7 @@ const isValidCreditCard = (e) => {
 // VALID ZIP CODD FUNCTION //
 
 const isValidZipCode = e => {
-    e.preventDefault();
+    //e.preventDefault();
     const zipCodeValue = document.getElementById("zip").value;
     let zipCodeInput = document.getElementById("zip");
     let zipCodeError = document.createElement("span");
@@ -293,7 +307,7 @@ const isValidZipCode = e => {
 // VALID CVV FUNCTION //
 
 const isValidCvv = e => {
-    e.preventDefault();
+    //e.preventDefault();
     const cvvValue = document.getElementById("cvv").value;
     let cvvInput = document.getElementById("cvv");
     let cvvError = document.createElement("span");
@@ -310,16 +324,16 @@ const isValidCvv = e => {
 
 
 
-form.addEventListener("input", isValidName);
+registerBtn.addEventListener("input", isValidName);
 
-form.addEventListener("input", isValidEmail);
+registerBtn.addEventListener("input", isValidEmail);
 
-form.addEventListener("submit", isValidName);
+registerBtn.addEventListener("submit", isValidName);
 
-form.addEventListener("submit", isValidEmail);
+registerBtn.addEventListener("submit", isValidEmail);
 
-form.addEventListener("submit", isValidCreditCard);
+registerBtn.addEventListener("submit", isValidCreditCard);
 
-form.addEventListener("submit", isValidZipCode);
+registerBtn.addEventListener("submit", isValidZipCode);
 
-form.addEventListener("submit", isValidCvv);
+registerBtn.addEventListener("submit", isValidCvv);
