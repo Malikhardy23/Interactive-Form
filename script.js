@@ -4,6 +4,7 @@ const otherTitle = document.getElementById("other-title");
 const otherCheckBox = document.getElementById("title");
 // const email = document.querySelector('input[name="user-email"]');
 const email = document.getElementById("mail");
+const jobRoleInput = document.getElementsByTagName("input")[2];
 
 // NAME FOCUS //
 
@@ -16,21 +17,25 @@ nameFocus();
 
 // HIDING OTHER INPUT FIELD FUNCTION //
 
+
+
  const hideOtherCheckBox = () => {
 
-    otherTitle.style.display = "none";
+    jobRoleInput.style.display = "none";
 
     otherCheckBox.addEventListener('click', (e) => {
         
         if(e.target.value !== "other"){
-          otherTitle.style.display = "none";
+            jobRoleInput.style.display = "none";
         } else {
-           otherTitle.style.display = "block";
+            jobRoleInput.style.display = "block";
         }
     })
 }
 
 hideOtherCheckBox();
+
+otherCheckBox.addEventListener('change', hideOtherCheckBox);
 
 
 // THEME FUNCTION //
@@ -199,6 +204,7 @@ paymentOption.addEventListener('change', (e) => {
 
     else if(e.target.value == "credit card"){
         creditCardSection.style.display = "block";
+        bitcoin.style.display = "none";
     }
 
 })
@@ -235,18 +241,20 @@ const isValidName = () => {
 
 // EMAIL VALIDATOR //
 
-const isValidEmail = () => {
+const isValidEmail = (e) => {
+    e.preventDefault();
     let emailLabel = document.getElementsByTagName("label")[1];
     let emailError = document.createElement("span");
     emailError.setAttribute("id", "emailError");
     let emailErrorSpan = document.getElementById("emailError");
-    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email.value);
     
+    console.log(emailRegex);
 
     // EMAIL LENGTH MUST BE GREATER THAN 0 & HAVE AN @ //
-    if(email.value.length !== null || emailRegex){
+    if(email.value.length >= 5 && emailRegex){
+        emailErrorSpan.innerHTML = "Valid Email"
         email.style.border = "2px solid green";
-        emailLabel.innerHTML = "Valid Email";
         emailLabel.style.color = "green";
         return true;
     }
@@ -289,13 +297,14 @@ const isValidCreditCard = (e) => {
 
 const isValidZipCode = e => {
     //e.preventDefault();
+    const zipRegex = /^[0-9]{5}$/.test(zip.value)
     const zipCodeValue = document.getElementById("zip").value;
     let zipCodeInput = document.getElementById("zip");
     let zipCodeError = document.createElement("span");
     let zipCodeLabel = document.querySelector('label[for=zip]');
     zipCodeError.setAttribute("id", "zipCodeError");
     let zipCodeErrorSpan = document.getElementById("zipCodeError");
-    if(zipCodeValue === null || zipCodeValue.length < 4){
+    if(zipCodeValue !== null || zipRegex){
         zipCodeError.style.color = "red";
         zipCodeLabel.textContent = "Invalid Zip Code";
         zipCodeLabel.appendChild(zipCodeError);
@@ -308,13 +317,14 @@ const isValidZipCode = e => {
 
 const isValidCvv = e => {
     //e.preventDefault();
+    const cvvRegex = /^[0-9]{3}$/.test(cvv.value)
     const cvvValue = document.getElementById("cvv").value;
     let cvvInput = document.getElementById("cvv");
     let cvvError = document.createElement("span");
     let cvvLabel = document.querySelector('label[for=cvv]');
     cvvError.setAttribute("id", "cvvError");
     let cvvErrorSpan = document.getElementById("cvvError");
-    if(cvvValue === null || cvvValue.length < 2){
+    if(cvvValue !== null || cvvRegex){
         cvvError.style.color = "red";
         cvvLabel.textContent = "Invalid CVV";
         cvvLabel.appendChild(cvvError);
