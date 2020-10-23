@@ -213,6 +213,33 @@ paymentOption.addEventListener('change', (e) => {
 
 // Form Validation //
 
+
+// ACTIVITY VALIDATOR //
+
+const activityValidator = () => {
+    // check to see any checkboxes are checked //
+    let selected = document.querySelector("input:checked");
+
+    let errorSpan = document.getElementById("activityError");
+
+    if(selected){
+        if(errorSpan){
+            activities.removeChild(errorSpan)
+        }
+        return true;
+    } else {
+        if(!errorSpan){
+            const activitiesLabel = document.querySelector(".activities label");
+            let errorActivity = document.createElement("span");
+            errorActivity.style.color = "red";
+            errorActivity.innerHTML = "Please Select at least one activity";
+            errorActivity.setAttribute("id", "errorSpan");
+            activities.insertBefore(errorActivity, activitiesLabel);
+        }
+        return false;
+    }
+}
+
 // NAME VALIDATOR //
 
 // VALID NAME VALIDATOR FUNCTION //
@@ -333,6 +360,10 @@ const isValidCvv = e => {
 registerBtn.addEventListener("input", isValidName);
 
 registerBtn.addEventListener("input", isValidEmail);
+
+registerBtn.addEventListener("input", activityValidator);
+
+registerBtn.addEventListener("submit", activityValidator);
 
 registerBtn.addEventListener("submit", isValidName);
 
