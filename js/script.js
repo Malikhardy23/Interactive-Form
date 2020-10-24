@@ -275,19 +275,18 @@ const isValidEmail = (e) => {
     let emailErrorSpan = document.getElementById("emailError");
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email.value);
     
-    console.log(emailRegex);
 
     // EMAIL LENGTH MUST BE GREATER THAN 0 & HAVE AN @ //
-    if(email.value.length >= 5 && emailRegex){
-        emailErrorSpan.innerHTML = "Valid Email"
-        email.style.border = "2px solid green";
-        emailLabel.style.color = "green";
-        return true;
-    }
-    else if(email.value.length == null && !emailRegex){
+    if(email.value.length !== 0 && emailRegex){
+        if(emailErrorSpan){
+            emailLabel.removeChild(emailErrorSpan)
+        }
+        email.style.border = "2px solid rgb(111, 157, 220)";
+        return true
+    } else if (!emailErrorSpan){
+        email.innerHTML = "Please Enter A Valid Email Address."
+        emailLabel.appendChild(emailErrorSpan);
         email.style.border = "2px solid red";
-        emailLabel.innerHTML = "Invalid Email";
-        emailLabel.style.color = "red";
         return false;
     }
 }
