@@ -219,20 +219,21 @@ paymentOption.addEventListener('change', (e) => {
 
 const activityValidator = () => {
     // check to see any checkboxes are checked //
+
     let selected = document.querySelector("input:checked");
 
+    let errorActivity = document.createElement("span");
+
     let errorSpan = document.getElementById("activityError");
-    
 
     if(selected){
         if(errorSpan){
-            activities.removeChild(errorSpan)
+            activities.removeChild(errorActivity);
         }
         return true;
     } else {
         if(!errorSpan){
             const activitiesLabel = document.querySelector(".activities label");
-            let errorActivity = document.createElement("span");
             errorActivity.style.color = "red";
             errorActivity.innerHTML = "Please Select at least one activity";
             errorFound = true;
@@ -252,16 +253,16 @@ function isValidName(){
     let nameError = document.createElement("span");
     nameError.setAttribute("id", "nameError");
     let errorSpan = document.getElementById("nameError");
-    let nameRegex =   /^([\w]{3,})+\s+([\w\s]{3,})+$/i.test(name.value);
-    let formName = document.myform.name;
+    // let nameRegex =   /^([\w]{3,})+\s+([\w\s]{3,})+$/i.test(name.value);
+    let formName = document.myform.name.value;
 
-    if(name.value.length > 5 && nameRegex && name.value.indexOf(" ") > -1){
+    if(formName.length > 0){
         name.style.border = "2px solid green";
         nameLabel.innerHTML = "Valid Name!";
         nameLabel.style.color = "green";
         return true;
     }
-    else if (name.value == "" || !nameRegex || name.value == null){
+    else{
         name.style.border = "2px solid red";
         nameLabel.innerHTML = "Invalid Name!";
         nameLabel.style.color = "red";
@@ -273,26 +274,29 @@ function isValidName(){
 
 // EMAIL VALIDATOR //
 
+// remove invalid if correct
 const isValidEmail = (e) => {
     let emailLabel = document.getElementsByTagName("label")[1];
     let emailError = document.createElement("span");
     emailError.setAttribute("id", "emailError");
     let emailErrorSpan = document.getElementById("emailError");
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email.value);
-    
+   
+    if(emailErrorSpan){
+        emailLabel.removeChild(emailErrorSpan)
+    }
 
     // EMAIL LENGTH MUST BE GREATER THAN 0 & HAVE AN @ //
     if(email.value.length > 5 && emailRegex){
-        if(emailErrorSpan){
-            emailLabel.removeChild(emailErrorSpan)
-        }
-        email.style.border = "2px solid rgb(111, 157, 220)";
+        email.style.border = "2px solid green";
+        emailLabel.style.color = "green";
+        emailLabel.innerHTML = "Valid Email Address!"
         return true
     } else if (!emailErrorSpan){
         emailLabel.style.color = "red";
-        emailLabel.innerHTML = "Please Enter A Valid Email Address."
-        // emailLabel.appendChild(emailErrorSpan);
+        emailLabel.innerHTML = "Invalid Email Address!"
         email.style.border = "2px solid red";
+        emailLabel.removeChild(emailErrorSpan);
         errorFound = true;
         return false;
     }
@@ -302,7 +306,7 @@ const isValidEmail = (e) => {
 
 
 // CC PAYMENT VALIDATOR FUNCTION //
-
+// place inside function it's cleaner :D
 const creditCardLabel = document.querySelector('label[for=cc-num]');
 const creditCardInput = document.getElementById("cc-num");
 const registerBtn = document.querySelector('button[type="submit"]');
@@ -311,22 +315,33 @@ const form = document.querySelector("form");
 let creditCardError = document.createElement("span");
 creditCardError.setAttribute("id", "ccError");
 let ccErrorSpan = document.getElementById("ccError");
-let ccRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11}|62[0-9]{14})$/;
+let ccRegex = /^(?:4[0-9]{13}(?:[0-9]{3})?|5[1-5][0-9]{14}|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11}|62[0-9]{14})$/;
 
 const isValidCreditCard = (e) => {
+    // clear the credit card error label and the zipcoee and the ccvs
+    if(ccErrorSpan){
+        creditCardLabel.removeChild(ccErrorSpan);
+    }
     const creditCardValue = document.getElementById("cc-num").value;
     // CREDIT CARD VALUE CAN NOT BE NULL & CAN NOT HAVE LESS THAN 16 CHARACTERS //
-    if(creditCardValue === null || creditCardValue.length < 16){
-        creditCardError.style.color = "red";
-        creditCardLabel.textContent = "Invalid Credit Card";
+    if(creditCardValue.length >= 13  && creditCardValue.length <= 16){
+     //   && ccRegex(creditCardValue)){
+    
+        creditCardInput.style.border = "2px solid green";
+        creditCardLabel.innerHTML = "Valid Credit Card!";
+        creditCardLabel.style.color = "green"; 
+    }else{
+        creditCardLabel.style.color = "red";
+        creditCardLabel.textContent = "Invalid Credit Card!";
         creditCardLabel.appendChild(creditCardError);
         creditCardInput.style.border = "2px solid red";
         errorFound = true;
     }
 }
 
-// VALID ZIP CODD FUNCTION //
+// VALID ZIP CODE FUNCTION //
 
+// remove invalid if correct
 const isValidZipCode = e => {
     const zipRegex = /^\d{5}([-]|\s*)?(\d{4})?$/.test(zip.value)
     const zipCodeValue = document.getElementById("zip").value;
@@ -335,37 +350,62 @@ const isValidZipCode = e => {
     let zipCodeLabel = document.querySelector('label[for=zip]');
     zipCodeError.setAttribute("id", "zipCodeError");
     let zipCodeErrorSpan = document.getElementById("zipCodeError");
+
+    if(zipCodeErrorSpan){
+        zipCodeLabel.removeChild(zipCodeErrorSpan);
+    }
+
     if(zipCodeValue == null || !zipRegex){
-        zipCodeError.style.color = "red";
-        zipCodeLabel.textContent = "Invalid Zip Code";
-        zipCodeLabel.appendChild(zipCodeError);
+        zipCodeLabel.style.color = "red";
+        zipCodeLabel.textContent = "Invalid Zip Code!";
         zipCodeInput.style.border = "2px solid red";
+        zipCodeLabel.appendChild(zipCodeError);
         errorFound = true;
+    } else {
+        zipCodeInput.style.border = "2px solid green";
+        zipCodeLabel.textContent = "Valid Zip Code";
+        zipCodeLabel.style.color = "green";
+        zipCodeLabel.appendChild(zipCodeError);
+        errorFound = false;
     }
 }
 
 
 // VALID CVV FUNCTION //
-
+// remove invalid if correct
 const isValidCvv = e => {
-    const cvvRegex = /^[0-9]{3,4}$/.test(cvv.value)
+    const cvvRegex = /^[0-9]{3}$/.test(cvv.value)
     const cvvValue = document.getElementById("cvv").value;
     let cvvInput = document.getElementById("cvv");
     let cvvError = document.createElement("span");
     let cvvLabel = document.querySelector('label[for=cvv]');
     cvvError.setAttribute("id", "cvvError");
     let cvvErrorSpan = document.getElementById("cvvError");
+
+    if(cvvErrorSpan){
+        cvvLabel.removeChild(cvvErrorSpan);
+    }
     if(cvvValue == null || !cvvRegex){
-        cvvError.style.color = "red";
-        cvvLabel.textContent = "Invalid CVV";
-        cvvLabel.appendChild(cvvError);
+        cvvLabel.style.color = "red";
+        cvvLabel.textContent = "Invalid CVV!";
         cvvInput.style.border = "2px solid red";
+        cvvLabel.appendChild(cvvError);
         errorFound = true;
-    } 
+    } else {
+        cvvLabel.style.color = "green";
+        cvvLabel.textContent = "Valid CVV";
+        cvvInput.style.border = "2px solid green";
+        cvvLabel.appendChild(cvvError);
+        errorFound = true;
+    }
 }
 
-const validateform = () => {
-    return false;
+const validateform = (e) => {
+    e.preventDefault();
+    if(!errorFound){ 
+      document.getElementsByName('myForm').submit();
+      //return true;
+    } 
 } 
 
 
@@ -384,5 +424,4 @@ document.myform.addEventListener("submit", isValidZipCode);
 
 document.myform.addEventListener("submit", isValidCvv);
 
-// document.myform.addEventListener("submit", validateform);
-
+ document.myform.addEventListener("submit", validateform);
