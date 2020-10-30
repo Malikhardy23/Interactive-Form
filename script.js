@@ -224,25 +224,34 @@ const activityValidator = () => {
 
     let errorActivity = document.createElement("span");
 
-    let errorSpan = document.getElementById("activityError");
+    var actSpan = document.getElementById('errorSpan');
 
-    if(selected){
-        if(errorSpan){
-            activities.removeChild(errorActivity);
-        }
-        return true;
-    } else {
-        if(!errorSpan){
-            const activitiesLabel = document.querySelector(".activities label");
-            errorActivity.style.color = "red";
-            errorActivity.innerHTML = "Please Select at least one activity";
+    const activitiesLabel = document.querySelector(".activities label");
+
+    if(actSpan){
+       activities.removeChild(actSpan);
+    }
+
+    if(total === 0){
+        errorActivity.style.color = "red";
+        errorActivity.innerHTML = "Please Select At Least One Activity!";
+        errorFound = true;
+        errorActivity.setAttribute("id", "errorSpan");
+        activities.insertBefore(errorActivity, activitiesLabel);
+       // activities.removeChild(errorActivity);
+    } 
+    else if(total !== 0){
+        if(!selected){
+            errorActivity.style.color = "green";
+            errorActivity.innerHTML = "Activities Selected!";
             errorFound = true;
             errorActivity.setAttribute("id", "errorSpan");
             activities.insertBefore(errorActivity, activitiesLabel);
         }
-        return false;
     }
 }
+
+
 
 // NAME VALIDATOR //
 
@@ -296,7 +305,7 @@ const isValidEmail = (e) => {
         emailLabel.style.color = "red";
         emailLabel.innerHTML = "Invalid Email Address!"
         email.style.border = "2px solid red";
-        emailLabel.removeChild(emailErrorSpan);
+       // emailLabel.removeChild(emailErrorSpan);
         errorFound = true;
         return false;
     }
@@ -405,7 +414,7 @@ const validateform = (e) => {
     if(!errorFound){ 
       document.getElementsByName('myForm').submit();
       //return true;
-    } 
+    } return false;
 } 
 
 
@@ -425,3 +434,4 @@ document.myform.addEventListener("submit", isValidZipCode);
 document.myform.addEventListener("submit", isValidCvv);
 
  document.myform.addEventListener("submit", validateform);
+
