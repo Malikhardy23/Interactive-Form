@@ -5,7 +5,7 @@ const otherCheckBox = document.getElementById("title");
 // const email = document.querySelector('input[name="user-email"]');
 const email = document.getElementById("mail");
 const jobRoleInput = document.getElementsByTagName("input")[2];
-var errorFound = false;
+var formValid = true;
 
 // NAME FOCUS //
 
@@ -235,7 +235,7 @@ const activityValidator = () => {
     if(total === 0){
         errorActivity.style.color = "red";
         errorActivity.innerHTML = "Please Select At Least One Activity!";
-        errorFound = true;
+        formValid = false;
         errorActivity.setAttribute("id", "errorSpan");
         activities.insertBefore(errorActivity, activitiesLabel);
        // activities.removeChild(errorActivity);
@@ -244,7 +244,7 @@ const activityValidator = () => {
         if(!selected){
             errorActivity.style.color = "green";
             errorActivity.innerHTML = "Activities Selected!";
-            errorFound = true;
+            formValid = false;
             errorActivity.setAttribute("id", "errorSpan");
             activities.insertBefore(errorActivity, activitiesLabel);
         }
@@ -254,8 +254,6 @@ const activityValidator = () => {
 
 
 // NAME VALIDATOR //
-
-// VALID NAME VALIDATOR FUNCTION //
 
 function isValidName(){
     let nameLabel = document.getElementsByTagName("label")[0];
@@ -269,13 +267,14 @@ function isValidName(){
         name.style.border = "2px solid green";
         nameLabel.innerHTML = "Valid Name!";
         nameLabel.style.color = "green";
+        formValid = true;
         return true;
     }
     else{
         name.style.border = "2px solid red";
         nameLabel.innerHTML = "Invalid Name!";
         nameLabel.style.color = "red";
-        errorFound = true;
+        formValid = false;
         return false;
     }
 
@@ -300,13 +299,14 @@ const isValidEmail = (e) => {
         email.style.border = "2px solid green";
         emailLabel.style.color = "green";
         emailLabel.innerHTML = "Valid Email Address!"
+        formValid = true;
         return true
     } else if (!emailErrorSpan){
         emailLabel.style.color = "red";
         emailLabel.innerHTML = "Invalid Email Address!"
         email.style.border = "2px solid red";
        // emailLabel.removeChild(emailErrorSpan);
-        errorFound = true;
+        formValid = false;
         return false;
     }
 }
@@ -339,12 +339,13 @@ const isValidCreditCard = (e) => {
         creditCardInput.style.border = "2px solid green";
         creditCardLabel.innerHTML = "Valid Credit Card!";
         creditCardLabel.style.color = "green"; 
+        formValid = true;
     }else{
         creditCardLabel.style.color = "red";
         creditCardLabel.textContent = "Invalid Credit Card!";
         creditCardLabel.appendChild(creditCardError);
         creditCardInput.style.border = "2px solid red";
-        errorFound = true;
+        formValid = false;
     }
 }
 
@@ -369,13 +370,13 @@ const isValidZipCode = e => {
         zipCodeLabel.textContent = "Invalid Zip Code!";
         zipCodeInput.style.border = "2px solid red";
         zipCodeLabel.appendChild(zipCodeError);
-        errorFound = true;
+        formValid = false;
     } else {
         zipCodeInput.style.border = "2px solid green";
         zipCodeLabel.textContent = "Valid Zip Code";
         zipCodeLabel.style.color = "green";
         zipCodeLabel.appendChild(zipCodeError);
-        errorFound = false;
+        formValid = true;
     }
 }
 
@@ -399,22 +400,24 @@ const isValidCvv = e => {
         cvvLabel.textContent = "Invalid CVV!";
         cvvInput.style.border = "2px solid red";
         cvvLabel.appendChild(cvvError);
-        errorFound = true;
+        formValid = false;
     } else {
         cvvLabel.style.color = "green";
         cvvLabel.textContent = "Valid CVV";
         cvvInput.style.border = "2px solid green";
         cvvLabel.appendChild(cvvError);
-        errorFound = true;
+        formValid = true;
     }
 }
 
-const validateform = (e) => {
+function validateform(e){
     e.preventDefault();
-    if(!errorFound){ 
-      document.getElementsByName('myForm').submit();
-      //return true;
-    } return false;
+    if(formValid){ 
+      document.getElementById('myForm').submit();
+      return true;
+    }
+     
+     return false;
 } 
 
 
@@ -431,7 +434,7 @@ document.myform.addEventListener("submit", isValidCreditCard);
 
 document.myform.addEventListener("submit", isValidZipCode);
 
-document.myform.addEventListener("submit", isValidCvv);
+document.myform.addEventListener("submit", isValidCvv); 
 
- document.myform.addEventListener("submit", validateform);
+document.myform.addEventListener("submit", validateform);
 
