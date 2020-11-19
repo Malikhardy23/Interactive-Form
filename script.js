@@ -327,7 +327,9 @@ let ccErrorSpan = document.getElementById("ccError");
 let ccRegex = /^(?:4[0-9]{13}(?:[0-9]{3})?|5[1-5][0-9]{14}|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11}|62[0-9]{14})$/;
 
 const isValidCreditCard = (e) => {
-    // clear the credit card error label and the zipcoee and the ccvs
+    var paymentFormExist = document.getElementById("payment") !== null ? document.getElementById("payment").value == 'credit card' : false;
+    if(paymentFormExist){
+            // clear the credit card error label and the zipcoee and the ccv
     if(ccErrorSpan){
         creditCardLabel.removeChild(ccErrorSpan);
     }
@@ -347,65 +349,90 @@ const isValidCreditCard = (e) => {
         creditCardInput.style.border = "2px solid red";
         formValid = false;
     }
+    } else {
+        formValid = true;
+    }
+}
+
+/* PAYPAL OR BITCOIN TRANSACTION SELECTION */
+
+const electronicPurchase = (e) => {
+    if(e.target.value === paypal || e.target.value === bitcoin){
+        formValid = true;
+        console.log('Transaction Sucessful!')
+    } else {
+        formValid = false;
+    }
 }
 
 // VALID ZIP CODE FUNCTION //
 
 // remove invalid if correct
 const isValidZipCode = e => {
-    const zipRegex = /^\d{5}([-]|\s*)?(\d{4})?$/.test(zip.value)
-    const zipCodeValue = document.getElementById("zip").value;
-    let zipCodeInput = document.getElementById("zip");
-    let zipCodeError = document.createElement("span");
-    let zipCodeLabel = document.querySelector('label[for=zip]');
-    zipCodeError.setAttribute("id", "zipCodeError");
-    let zipCodeErrorSpan = document.getElementById("zipCodeError");
-
-    if(zipCodeErrorSpan){
-        zipCodeLabel.removeChild(zipCodeErrorSpan);
-    }
-
-    if(zipCodeValue == null || !zipRegex){
-        zipCodeLabel.style.color = "red";
-        zipCodeLabel.textContent = "Invalid Zip Code!";
-        zipCodeInput.style.border = "2px solid red";
-        zipCodeLabel.appendChild(zipCodeError);
-        formValid = false;
+    var paymentFormExist = document.getElementById("payment") !== null ? document.getElementById("payment").value == 'credit card' : false;
+    if(paymentFormExist){
+        const zipRegex = /^\d{5}([-]|\s*)?(\d{4})?$/.test(zip.value)
+        const zipCodeValue = document.getElementById("zip").value;
+        let zipCodeInput = document.getElementById("zip");
+        let zipCodeError = document.createElement("span");
+        let zipCodeLabel = document.querySelector('label[for=zip]');
+        zipCodeError.setAttribute("id", "zipCodeError");
+        let zipCodeErrorSpan = document.getElementById("zipCodeError");
+    
+        if(zipCodeErrorSpan){
+            zipCodeLabel.removeChild(zipCodeErrorSpan);
+        }
+    
+        if(zipCodeValue == null || !zipRegex){
+            zipCodeLabel.style.color = "red";
+            zipCodeLabel.textContent = "Invalid Zip Code!";
+            zipCodeInput.style.border = "2px solid red";
+            zipCodeLabel.appendChild(zipCodeError);
+            formValid = false;
+        } else {
+            zipCodeInput.style.border = "2px solid green";
+            zipCodeLabel.textContent = "Valid Zip Code";
+            zipCodeLabel.style.color = "green";
+            zipCodeLabel.appendChild(zipCodeError);
+            formValid = true;
+        }
     } else {
-        zipCodeInput.style.border = "2px solid green";
-        zipCodeLabel.textContent = "Valid Zip Code";
-        zipCodeLabel.style.color = "green";
-        zipCodeLabel.appendChild(zipCodeError);
         formValid = true;
     }
+
 }
 
 
 // VALID CVV FUNCTION //
 // remove invalid if correct
 const isValidCvv = e => {
-    const cvvRegex = /^[0-9]{3}$/.test(cvv.value)
-    const cvvValue = document.getElementById("cvv").value;
-    let cvvInput = document.getElementById("cvv");
-    let cvvError = document.createElement("span");
-    let cvvLabel = document.querySelector('label[for=cvv]');
-    cvvError.setAttribute("id", "cvvError");
-    let cvvErrorSpan = document.getElementById("cvvError");
-
-    if(cvvErrorSpan){
-        cvvLabel.removeChild(cvvErrorSpan);
-    }
-    if(cvvValue == null || !cvvRegex){
-        cvvLabel.style.color = "red";
-        cvvLabel.textContent = "Invalid CVV!";
-        cvvInput.style.border = "2px solid red";
-        cvvLabel.appendChild(cvvError);
-        formValid = false;
+    var paymentFormExist = document.getElementById("payment") !== null ? document.getElementById("payment").value == 'credit card' : false;
+    if(paymentFormExist){
+        const cvvRegex = /^[0-9]{3}$/.test(cvv.value)
+        const cvvValue = document.getElementById("cvv").value;
+        let cvvInput = document.getElementById("cvv");
+        let cvvError = document.createElement("span");
+        let cvvLabel = document.querySelector('label[for=cvv]');
+        cvvError.setAttribute("id", "cvvError");
+        let cvvErrorSpan = document.getElementById("cvvError");
+    
+        if(cvvErrorSpan){
+            cvvLabel.removeChild(cvvErrorSpan);
+        }
+        if(cvvValue == null || !cvvRegex){
+            cvvLabel.style.color = "red";
+            cvvLabel.textContent = "Invalid CVV!";
+            cvvInput.style.border = "2px solid red";
+            cvvLabel.appendChild(cvvError);
+            formValid = false;
+        } else {
+            cvvLabel.style.color = "green";
+            cvvLabel.textContent = "Valid CVV";
+            cvvInput.style.border = "2px solid green";
+            cvvLabel.appendChild(cvvError);
+            formValid = true;
+        } 
     } else {
-        cvvLabel.style.color = "green";
-        cvvLabel.textContent = "Valid CVV";
-        cvvInput.style.border = "2px solid green";
-        cvvLabel.appendChild(cvvError);
         formValid = true;
     }
 }
@@ -426,11 +453,11 @@ document.myform.addEventListener("submit", isValidName);
 
 document.myform.addEventListener("submit", activityValidator);
 
-document.myform.addEventListener("submit", isValidName);
-
 document.myform.addEventListener("submit", isValidEmail);
 
 document.myform.addEventListener("submit", isValidCreditCard);
+
+document.myform.addEventListener("submit", electronicPurchase);
 
 document.myform.addEventListener("submit", isValidZipCode);
 
